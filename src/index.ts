@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { DefinePlugin } from "webpack";
+import { DefinePlugin, Compiler } from "webpack";
 
 import { WebpackEnvConfig } from "./types";
 
@@ -32,8 +32,17 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
     envObject[`process.env.${key}`] = desiredEnv[key];
   }
 
+  if (config.debug) {
+    console.log(
+      `parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`
+    );
+    console.log(`parsed desiredEnv:\n ${JSON.stringify(desiredEnv, null, 2)}`);
+  }
+
   return new DefinePlugin({ ...desiredEnv });
 }
+
+WebpackEnv.prototype.apply = function (compiler: Compiler) {};
 
 // class WebpackEnv<EnvObject = string> extends Plugin {
 //   constructor(public readonly config: WebpackEnvConfig<EnvObject>) {

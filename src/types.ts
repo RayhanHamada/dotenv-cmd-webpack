@@ -4,4 +4,5 @@ export type WebpackEnvConfig<EnvObject> = {
 
   // the desired environment
   env: EnvObject extends { [env: string]: any } ? keyof EnvObject : string;
+  debug?: boolean 
 };

@@ -29,8 +29,13 @@ function WebpackEnv(config) {
     for (const key in desiredEnv) {
         envObject[`process.env.${key}`] = desiredEnv[key];
     }
+    if (config.debug) {
+        console.log(`parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`);
+        console.log(`parsed desiredEnv:\n ${JSON.stringify(desiredEnv, null, 2)}`);
+    }
     return new webpack_1.DefinePlugin({ ...desiredEnv });
 }
+WebpackEnv.prototype.apply = function (compiler) { };
 // class WebpackEnv<EnvObject = string> extends Plugin {
 //   constructor(public readonly config: WebpackEnvConfig<EnvObject>) {
 //     super();

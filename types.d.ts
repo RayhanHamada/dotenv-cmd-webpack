@@ -3,4 +3,5 @@ export declare type WebpackEnvConfig<EnvObject> = {
     env: EnvObject extends {
         [env: string]: any;
     } ? keyof EnvObject : string;
+    debug?: boolean;
 };
