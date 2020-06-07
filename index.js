@@ -33,7 +33,7 @@ function WebpackEnv(config) {
         console.log(`parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`);
         console.log(`parsed desiredEnv:\n ${JSON.stringify(desiredEnv, null, 2)}`);
     }
-    return new webpack_1.DefinePlugin({ ...desiredEnv });
+    return new webpack_1.DefinePlugin({ ...envObject });
 }
 WebpackEnv.prototype.apply = function (compiler) { };
 // class WebpackEnv<EnvObject = string> extends Plugin {

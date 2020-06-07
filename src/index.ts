@@ -39,7 +39,7 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
     console.log(`parsed desiredEnv:\n ${JSON.stringify(desiredEnv, null, 2)}`);
   }
 
-  return new DefinePlugin({ ...desiredEnv });
+  return new DefinePlugin({ ...envObject });
 }
 
 WebpackEnv.prototype.apply = function (compiler: Compiler) {};
