@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "author": {
+    "name": "Rayhan Hamada",
+    "email": "hamadadev2016@gmail.com"
+  },
+  "repository": {
+   "url": "" 
+  },
   "scripts": {
     "build": "./node_modules/.bin/tsc",
     "lint": "./node_modules/.bin/eslint"
