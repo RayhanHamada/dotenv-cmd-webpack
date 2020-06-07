@@ -11,7 +11,7 @@ function WebpackEnv(config) {
      * resolve json file path
      */
     const cwd = process.cwd();
-    const resolvedPath = path_1.default.resolve(cwd, config.filePath);
+    const resolvedPath = path_1.default.resolve(__dirname, config.filePath);
     /**
      * read file from config.filePath and parse it
      */
