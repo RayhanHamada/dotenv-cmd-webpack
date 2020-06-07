@@ -25,7 +25,8 @@ class WebpackEnv extends webpack_1.Plugin {
         /**
          * take the desired environment's keys
          */
-        const desiredEnvKeys = Object.keys(parsedJsonFile[this.config.env]);
+        const desiredEnvObject = parsedJsonFile[this.config.env];
+        const desiredEnvKeys = Object.keys(desiredEnvObject);
         /**
          * and set the environment, but leave the predefined variable
          */

@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { Compiler, Plugin, DefinePlugin } from "webpack";
+import { Compiler, Plugin } from "webpack";
 
 import { WebpackEnvConfig } from "./types";
 
@@ -25,9 +25,8 @@ class WebpackEnv<EnvObject = string> extends Plugin {
     /**
      * take the desired environment's keys
      */
-    const desiredEnvKeys = Object.keys(
-      parsedJsonFile[this.config.env as string]
-    );
+    const desiredEnvObject = parsedJsonFile[this.config.env as string];
+    const desiredEnvKeys = Object.keys(desiredEnvObject);
 
     /**
      * and set the environment, but leave the predefined variable
