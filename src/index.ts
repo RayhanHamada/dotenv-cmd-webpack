@@ -32,7 +32,7 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
     envObject[`process.env.${key}`] = desiredEnv[key];
   }
 
-  return new DefinePlugin(envObject);
+  return new DefinePlugin({ ...desiredEnv });
 }
 
 // class WebpackEnv<EnvObject = string> extends Plugin {

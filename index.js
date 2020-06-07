@@ -29,7 +29,7 @@ function WebpackEnv(config) {
     for (const key in desiredEnv) {
         envObject[`process.env.${key}`] = desiredEnv[key];
     }
-    return new webpack_1.DefinePlugin(envObject);
+    return new webpack_1.DefinePlugin({ ...desiredEnv });
 }
 // class WebpackEnv<EnvObject = string> extends Plugin {
 //   constructor(public readonly config: WebpackEnvConfig<EnvObject>) {
