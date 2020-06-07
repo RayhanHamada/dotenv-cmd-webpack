@@ -27,7 +27,7 @@ function WebpackEnv(config) {
      */
     let envObject = {};
     for (const key in desiredEnv) {
-        envObject[`process.env.${key}`] = desiredEnv[key];
+        envObject[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
     }
     if (config.debug) {
         console.log(`parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`);

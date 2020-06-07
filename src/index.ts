@@ -29,7 +29,7 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
   let envObject: Record<string, string> = {};
 
   for (const key in desiredEnv) {
-    envObject[`process.env.${key}`] = desiredEnv[key];
+    envObject[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
   }
 
   if (config.debug) {
