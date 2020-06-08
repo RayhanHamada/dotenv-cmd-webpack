@@ -1,4 +1,4 @@
 import { DefinePlugin } from "webpack";
 import { WebpackEnvConfig } from "./types";
-declare function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>): DefinePlugin;
+declare function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>): DefinePlugin | undefined;
 export default WebpackEnv;
