@@ -24,4 +24,8 @@ export declare type WebpackEnvConfig<EnvObject = unknown> = {
      * should this plugin print the environment variables, default to false
      */
     debug?: boolean;
+    /**
+     * should resolve path ? default to true
+     */
+    shouldResolvePath?: boolean;
 };

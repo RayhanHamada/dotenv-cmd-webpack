@@ -3,8 +3,16 @@ import path from "path";
 import { DefinePlugin, Compiler } from "webpack";
 
 import { WebpackEnvConfig } from "./types";
+import { debug } from "./utils";
 
 function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
+  if (config.shouldResolvePath === undefined) {
+    config.shouldResolvePath = true;
+  }
+
+  if (config.debug === undefined) {
+    config.debug = false;
+  }
   /**
    * if config.envObject is not undefined, just use the envObject
    * instead of reading the json file and parse it
@@ -26,7 +34,11 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
       /**
        * resolve json file path
        */
-      resolvedPath = path.resolve(process.cwd(), config.filePath);
+      resolvedPath = config.shouldResolvePath
+        ? path.resolve(process.cwd(), config.filePath)
+        : config.filePath;
+
+      debug(`resolved path -> ${resolvedPath}`, config.debug);
     } catch (e) {
       console.error(
         "dotenv-cmd-webpack    : Error when resolving path, please check your path !"
@@ -39,6 +51,7 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
 
     try {
       jsonFile = fs.readFileSync(resolvedPath, { encoding: "utf-8" });
+      debug(`jsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
     } catch (e) {
       console.error(
         `dotenv-cmd-webpack     : Error when reading file, check your JSON file !`
@@ -48,6 +61,7 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
 
     try {
       parsedJsonFile = JSON.parse(jsonFile);
+      debug(`parsedJsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
     } catch (e) {
       console.error(
         `dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`

@@ -6,7 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const webpack_1 = require("webpack");
+const utils_1 = require("./utils");
 function WebpackEnv(config) {
+    if (config.shouldResolvePath === undefined) {
+        config.shouldResolvePath = true;
+    }
+    if (config.debug === undefined) {
+        config.debug = false;
+    }
     /**
      * if config.envObject is not undefined, just use the envObject
      * instead of reading the json file and parse it
@@ -25,7 +32,10 @@ function WebpackEnv(config) {
             /**
              * resolve json file path
              */
-            resolvedPath = path_1.default.resolve(process.cwd(), config.filePath);
+            resolvedPath = config.shouldResolvePath
+                ? path_1.default.resolve(process.cwd(), config.filePath)
+                : config.filePath;
+            utils_1.debug(`resolved path -> ${resolvedPath}`, config.debug);
         }
         catch (e) {
             console.error("dotenv-cmd-webpack    : Error when resolving path, please check your path !");
@@ -36,6 +46,7 @@ function WebpackEnv(config) {
         }
         try {
             jsonFile = fs_1.default.readFileSync(resolvedPath, { encoding: "utf-8" });
+            utils_1.debug(`jsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
         }
         catch (e) {
             console.error(`dotenv-cmd-webpack     : Error when reading file, check your JSON file !`);
@@ -43,6 +54,7 @@ function WebpackEnv(config) {
         }
         try {
             parsedJsonFile = JSON.parse(jsonFile);
+            utils_1.debug(`parsedJsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
         }
         catch (e) {
             console.error(`dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`);
