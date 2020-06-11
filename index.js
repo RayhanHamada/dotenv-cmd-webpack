@@ -8,9 +8,15 @@ const path_1 = __importDefault(require("path"));
 const webpack_1 = require("webpack");
 const utils_1 = require("./utils");
 function WebpackEnv(config) {
+    /**
+     * should path to .env file be resolved or not
+     */
     if (config.shouldResolvePath === undefined) {
         config.shouldResolvePath = true;
     }
+    /**
+     * should plugin logging data
+     */
     if (config.debug === undefined) {
         config.debug = false;
     }

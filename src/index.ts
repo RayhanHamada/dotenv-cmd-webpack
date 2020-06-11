@@ -6,10 +6,16 @@ import { WebpackEnvConfig } from "./types";
 import { debug } from "./utils";
 
 function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
+  /**
+   * should path to .env file be resolved or not
+   */
   if (config.shouldResolvePath === undefined) {
     config.shouldResolvePath = true;
   }
 
+  /**
+   * should plugin logging data
+   */
   if (config.debug === undefined) {
     config.debug = false;
   }
