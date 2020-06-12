@@ -94,7 +94,7 @@ plugin: [
 ];
 ```
 NOTE that the second option only works in typescript, since you cannot specify template parameter type in javascript (not without library like flow.js)
-also NOTE if `envObject` is specified, then `filePath` is not required to be specified and vice versa. if you fill both, then Dotenv will using
+also NOTE if `envObject` is specified, then `filePath` is not required to be specified and vice versa. if you fill both, then dotenv-cmd-webpack will using
 environments data from `envObject`.
 
 # License
