@@ -1,6 +1,6 @@
 {
   "name": "dotenv-cmd-webpack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "MIT",
   "author": {
@@ -8,7 +8,7 @@
     "email": "hamadadev2016@gmail.com"
   },
   "repository": {
-   "url": "https://github.com/RayhanHamada/dotenv-cmd-webpack" 
+    "url": "https://github.com/RayhanHamada/dotenv-cmd-webpack"
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc",
