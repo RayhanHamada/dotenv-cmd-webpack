@@ -48,7 +48,7 @@ function WebpackEnv(config) {
             // console.error(
             //   `dotenv-cmd-webpack    : Proceeding to build WITHOUT your env variables set !`
             // );
-            return;
+            return new webpack_1.DefinePlugin({});
         }
         try {
             jsonFile = fs_1.default.readFileSync(resolvedPath, { encoding: "utf-8" });
@@ -56,7 +56,7 @@ function WebpackEnv(config) {
         }
         catch (e) {
             console.error(`dotenv-cmd-webpack     : Error when reading file, check your JSON file !`);
-            return;
+            return new webpack_1.DefinePlugin({});
         }
         try {
             parsedJsonFile = JSON.parse(jsonFile);
@@ -64,12 +64,12 @@ function WebpackEnv(config) {
         }
         catch (e) {
             console.error(`dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`);
-            return;
+            return new webpack_1.DefinePlugin({});
         }
     }
     else {
         console.error(`dotenv-cmd-webpack     : envObject or filePath is NOT specified !`);
-        return;
+        return new webpack_1.DefinePlugin({});
     }
     /**
      * get the desired env object

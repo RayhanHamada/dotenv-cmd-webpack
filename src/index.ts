@@ -52,7 +52,7 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
       // console.error(
       //   `dotenv-cmd-webpack    : Proceeding to build WITHOUT your env variables set !`
       // );
-      return;
+      return new DefinePlugin({});
     }
 
     try {
@@ -62,7 +62,7 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
       console.error(
         `dotenv-cmd-webpack     : Error when reading file, check your JSON file !`
       );
-      return;
+      return new DefinePlugin({});
     }
 
     try {
@@ -72,13 +72,13 @@ function WebpackEnv<EnvObject = string>(config: WebpackEnvConfig<EnvObject>) {
       console.error(
         `dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`
       );
-      return;
+      return new DefinePlugin({});
     }
   } else {
     console.error(
       `dotenv-cmd-webpack     : envObject or filePath is NOT specified !`
     );
-    return;
+    return new DefinePlugin({});
   }
 
   /**
