@@ -29,5 +29,5 @@ export type WebpackEnvConfig<EnvObject = unknown> = {
   /**
    * should resolve path ? default to true
    */
-  shouldResolvePath?: boolean
+  shouldResolvePath?: boolean;
 };
