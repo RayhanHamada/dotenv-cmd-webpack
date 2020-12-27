@@ -17,9 +17,7 @@ export declare type WebpackEnvConfig<EnvObject = unknown> = {
      * whether it is specified in WebpackEnvConfig's type template param or you specify the
      * envObject, you should get intellisense suggestion of target environments available.
      */
-    env: EnvObject extends {
-        [env: string]: any;
-    } ? keyof EnvObject : string;
+    env: EnvObject extends Record<string, any> ? keyof EnvObject : string;
     /**
      * should this plugin print the environment variables, default to false
      */
