@@ -1,8 +1,7 @@
 import { Compiler, DefinePlugin } from "webpack";
 import { WebpackEnvConfig } from "./types";
-export declare function DotenvWebpack<EnvObject = string>(config: WebpackEnvConfig<EnvObject>): DefinePlugin;
-export declare class DotenvCmdWebpack<EnvObject = string> extends DefinePlugin {
-    [k: string]: string | ((...args: any[]) => void);
-    constructor(config: WebpackEnvConfig<EnvObject>);
+export declare class DotenvCmdWebpack extends DefinePlugin {
+    private envObject;
+    constructor(config: WebpackEnvConfig);
     apply(compiler: Compiler): void;
 }
