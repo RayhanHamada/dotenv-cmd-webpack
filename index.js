@@ -176,6 +176,11 @@ class DotenvCmdWebpack extends webpack_1.DefinePlugin {
             console.log(`parsed desiredEnv:\n ${JSON.stringify(desiredEnv, null, 2)}`);
         }
     }
-    apply(compiler) { }
+    apply(compiler) {
+        compiler.options.plugins?.push(new webpack_1.DefinePlugin({
+            ...this,
+            apply: undefined,
+        }));
+    }
 }
 exports.DotenvCmdWebpack = DotenvCmdWebpack;

@@ -216,5 +216,12 @@ export class DotenvCmdWebpack<EnvObject = string> extends DefinePlugin {
     }
   }
 
-  apply(compiler: Compiler) {}
+  apply(compiler: Compiler) {
+    compiler.options.plugins?.push(
+      new DefinePlugin({
+        ...this,
+        apply: undefined,
+      })
+    );
+  }
 }
