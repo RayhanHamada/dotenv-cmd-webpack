@@ -195,7 +195,7 @@ export class DotenvCmdWebpack<EnvObject = string> extends EnvironmentPlugin {
     let envObject: Record<string, string> = {};
 
     for (const key in desiredEnv) {
-      envObject[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
+      envObject[key] = JSON.stringify(desiredEnv[key]);
     }
 
     super({
@@ -203,7 +203,7 @@ export class DotenvCmdWebpack<EnvObject = string> extends EnvironmentPlugin {
     });
 
     for (const key in desiredEnv) {
-      this[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
+      this[key] = JSON.stringify(desiredEnv[key]);
     }
 
     if (config.debug) {

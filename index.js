@@ -163,13 +163,13 @@ class DotenvCmdWebpack extends webpack_1.EnvironmentPlugin {
          */
         let envObject = {};
         for (const key in desiredEnv) {
-            envObject[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
+            envObject[key] = JSON.stringify(desiredEnv[key]);
         }
         super({
             ...envObject,
         });
         for (const key in desiredEnv) {
-            this[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
+            this[key] = JSON.stringify(desiredEnv[key]);
         }
         if (config.debug) {
             console.log(`parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`);
