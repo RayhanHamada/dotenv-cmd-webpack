@@ -91,7 +91,7 @@ function DotenvWebpack(config) {
     return new webpack_1.DefinePlugin({ ...envObject });
 }
 exports.DotenvWebpack = DotenvWebpack;
-class DotenvCmdWebpack extends webpack_1.EnvironmentPlugin {
+class DotenvCmdWebpack extends webpack_1.DefinePlugin {
     constructor(config) {
         /**
          * should path to .env file be resolved or not
@@ -163,13 +163,13 @@ class DotenvCmdWebpack extends webpack_1.EnvironmentPlugin {
          */
         let envObject = {};
         for (const key in desiredEnv) {
-            envObject[key] = JSON.stringify(desiredEnv[key]);
+            envObject[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
         }
         super({
             ...envObject,
         });
         for (const key in desiredEnv) {
-            this[key] = JSON.stringify(desiredEnv[key]);
+            this[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
         }
         if (config.debug) {
             console.log(`parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`);

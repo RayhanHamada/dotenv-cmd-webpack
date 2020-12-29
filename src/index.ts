@@ -108,7 +108,7 @@ export function DotenvWebpack<EnvObject = string>(
   return new DefinePlugin({ ...envObject });
 }
 
-export class DotenvCmdWebpack<EnvObject = string> extends EnvironmentPlugin {
+export class DotenvCmdWebpack<EnvObject = string> extends DefinePlugin {
   [k: string]: string | ((...args: any[]) => void);
   constructor(config: WebpackEnvConfig<EnvObject>) {
     /**
@@ -195,7 +195,7 @@ export class DotenvCmdWebpack<EnvObject = string> extends EnvironmentPlugin {
     let envObject: Record<string, string> = {};
 
     for (const key in desiredEnv) {
-      envObject[key] = JSON.stringify(desiredEnv[key]);
+      envObject[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
     }
 
     super({
@@ -203,7 +203,7 @@ export class DotenvCmdWebpack<EnvObject = string> extends EnvironmentPlugin {
     });
 
     for (const key in desiredEnv) {
-      this[key] = JSON.stringify(desiredEnv[key]);
+      this[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
     }
 
     if (config.debug) {

@@ -38,7 +38,7 @@ describe('DotenvCmdWebpack', function () {
           .undefined;
 
         expect(
-          thePlugin['PORT'],
+          thePlugin['process.env.PORT'],
           'process.env.PORT should be 3000'
         ).to.be.equal('3000');
 
@@ -76,7 +76,7 @@ describe('DotenvCmdWebpack', function () {
           .undefined;
 
         expect(
-          thePlugin['PORT'],
+          thePlugin['process.env.PORT'],
           'process.env.PORT should be 3000'
         ).to.be.equal('3000');
 
