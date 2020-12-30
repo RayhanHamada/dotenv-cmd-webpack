@@ -11,7 +11,6 @@ const utils_1 = require("./utils");
 class DotenvCmdWebpack extends webpack_1.DefinePlugin {
     constructor(config) {
         super({});
-        this.envObject = {};
         /**
          * should path to .env file be resolved or not
          */
@@ -29,22 +28,22 @@ class DotenvCmdWebpack extends webpack_1.DefinePlugin {
         /**
          * read file from config.filePath and parse it
          */
-        let resolvedPath;
+        let filePath;
         try {
             /**
              * resolve json file path
              */
-            resolvedPath = config.shouldResolvePath
+            filePath = config.shouldResolvePath
                 ? path_1.default.resolve(process.cwd(), config.filePath)
                 : config.filePath;
-            utils_1.debug(`resolved path -> ${resolvedPath}`, config.debug);
+            utils_1.debug(`resolved path -> ${filePath}`, config.debug);
         }
         catch (e) {
-            console.error("dotenv-cmd-webpack    : Error when resolving path, please check your path !");
+            console.error('dotenv-cmd-webpack    : Error when resolving path, please check your path !');
             return;
         }
         try {
-            jsonFile = fs_1.default.readFileSync(resolvedPath, { encoding: "utf-8" });
+            jsonFile = fs_1.default.readFileSync(filePath, { encoding: 'utf-8' });
             utils_1.debug(`jsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
         }
         catch (e) {
@@ -68,20 +67,13 @@ class DotenvCmdWebpack extends webpack_1.DefinePlugin {
          * in form of process.env.X, where X is the environment variable name
          */
         for (const key in desiredEnv) {
-            this.envObject[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
+            this.definitions[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
         }
         if (config.debug) {
             console.log(`parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`);
             console.log(`parsed desiredEnv:\n ${JSON.stringify(desiredEnv, null, 2)}`);
         }
     }
-    apply(compiler) {
-        /**
-         * add DefinePlugin to compiler's plugin
-         */
-        compiler.options.plugins?.push(new webpack_1.DefinePlugin({
-            ...this.envObject,
-        }));
-    }
+    apply(_compiler) { }
 }
 exports.DotenvCmdWebpack = DotenvCmdWebpack;

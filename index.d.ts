@@ -1,7 +1,6 @@
-import { Compiler, DefinePlugin } from "webpack";
-import { WebpackEnvConfig } from "./types";
+import { Compiler, DefinePlugin } from 'webpack';
+import { WebpackEnvConfig } from './types';
 export declare class DotenvCmdWebpack extends DefinePlugin {
-    private envObject;
     constructor(config: WebpackEnvConfig);
-    apply(compiler: Compiler): void;
+    apply(_compiler: Compiler): void;
 }

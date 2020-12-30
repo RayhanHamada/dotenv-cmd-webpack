@@ -1,12 +1,11 @@
-import fs from "fs";
-import path from "path";
-import { Compiler, DefinePlugin } from "webpack";
+import fs from 'fs';
+import path from 'path';
+import { Compiler, DefinePlugin } from 'webpack';
 
-import { WebpackEnvConfig } from "./types";
-import { debug } from "./utils";
+import { WebpackEnvConfig } from './types';
+import { debug } from './utils';
 
 export class DotenvCmdWebpack extends DefinePlugin {
-  private envObject: Record<string, any> = {};
   constructor(config: WebpackEnvConfig) {
     super({});
     /**
@@ -30,26 +29,26 @@ export class DotenvCmdWebpack extends DefinePlugin {
      * read file from config.filePath and parse it
      */
 
-    let resolvedPath: string;
+    let filePath: string;
 
     try {
       /**
        * resolve json file path
        */
-      resolvedPath = config.shouldResolvePath
+      filePath = config.shouldResolvePath
         ? path.resolve(process.cwd(), config.filePath)
         : config.filePath;
 
-      debug(`resolved path -> ${resolvedPath}`, config.debug);
+      debug(`resolved path -> ${filePath}`, config.debug);
     } catch (e) {
       console.error(
-        "dotenv-cmd-webpack    : Error when resolving path, please check your path !"
+        'dotenv-cmd-webpack    : Error when resolving path, please check your path !'
       );
       return;
     }
 
     try {
-      jsonFile = fs.readFileSync(resolvedPath, { encoding: "utf-8" });
+      jsonFile = fs.readFileSync(filePath, { encoding: 'utf-8' });
       debug(`jsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
     } catch (e) {
       console.error(
@@ -79,7 +78,7 @@ export class DotenvCmdWebpack extends DefinePlugin {
      */
 
     for (const key in desiredEnv) {
-      this.envObject[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
+      this.definitions[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
     }
 
     if (config.debug) {
@@ -92,14 +91,5 @@ export class DotenvCmdWebpack extends DefinePlugin {
     }
   }
 
-  apply(compiler: Compiler) {
-    /**
-     * add DefinePlugin to compiler's plugin
-     */
-    compiler.options.plugins?.push(
-      new DefinePlugin({
-        ...this.envObject,
-      })
-    );
-  }
+  apply(_compiler: Compiler) {}
 }
