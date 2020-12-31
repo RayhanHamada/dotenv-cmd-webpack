@@ -1,32 +1,39 @@
 import fs from 'fs';
 import path from 'path';
-import { Compiler, DefinePlugin } from 'webpack';
+import { Compiler, DefinePlugin, EnvironmentPlugin } from 'webpack';
 
 import { WebpackEnvConfig } from './types';
 import { debug } from './utils';
 
-export class DotenvCmdWebpack extends DefinePlugin {
-  constructor(config: WebpackEnvConfig) {
-    super({});
-    /**
-     * should path to .env file be resolved or not
-     */
-    if (config.shouldResolvePath === undefined) {
-      config.shouldResolvePath = true;
-    }
+export function DotenvWebpack<EnvObject = string>(
+  config: WebpackEnvConfig<EnvObject>
+) {
+  /**
+   * should path to .env file be resolved or not
+   */
+  if (config.shouldResolvePath === undefined) {
+    config.shouldResolvePath = true;
+  }
 
-    /**
-     * should plugin logging data
-     */
-    if (config.debug === undefined) {
-      config.debug = false;
-    }
+  /**
+   * should plugin logging data
+   */
+  if (config.debug === undefined) {
+    config.debug = false;
+  }
+  /**
+   * if config.envObject is not undefined, just use the envObject
+   * instead of reading the json file and parse it
+   */
 
-    let jsonFile: string;
-    let parsedJsonFile;
+  let jsonFile: string;
+  let parsedJsonFile;
 
+  if (config.envObject !== undefined) {
+    parsedJsonFile = config.envObject;
+  } else if (config.filePath !== undefined) {
     /**
-     * read file from config.filePath and parse it
+     * if undefined, read file from config.filePath and parse it
      */
 
     let filePath: string;
@@ -44,7 +51,10 @@ export class DotenvCmdWebpack extends DefinePlugin {
       console.error(
         'dotenv-cmd-webpack    : Error when resolving path, please check your path !'
       );
-      return;
+      // console.error(
+      //   `dotenv-cmd-webpack    : Proceeding to build WITHOUT your env variables set !`
+      // );
+      return new DefinePlugin({});
     }
 
     try {
@@ -54,7 +64,7 @@ export class DotenvCmdWebpack extends DefinePlugin {
       console.error(
         `dotenv-cmd-webpack     : Error when reading file, check your JSON file !`
       );
-      return;
+      return new DefinePlugin({});
     }
 
     try {
@@ -64,32 +74,36 @@ export class DotenvCmdWebpack extends DefinePlugin {
       console.error(
         `dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`
       );
-      return;
+      return new DefinePlugin({});
     }
-
-    /**
-     * get the desired env object
-     */
-    const desiredEnv = parsedJsonFile[config.env];
-
-    /**
-     * and make an object to keep all the variables
-     * in form of process.env.X, where X is the environment variable name
-     */
-
-    for (const key in desiredEnv) {
-      this.definitions[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
-    }
-
-    if (config.debug) {
-      console.log(
-        `parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`
-      );
-      console.log(
-        `parsed desiredEnv:\n ${JSON.stringify(desiredEnv, null, 2)}`
-      );
-    }
+  } else {
+    console.error(
+      `dotenv-cmd-webpack     : envObject or filePath is NOT specified !`
+    );
+    return new DefinePlugin({});
   }
 
-  apply(_compiler: Compiler) {}
+  /**
+   * get the desired env object
+   */
+  const desiredEnv = parsedJsonFile[config.env];
+
+  /**
+   * and make an object to keep all the variables
+   * in form of process.env.X, where X is the variable name
+   */
+  let envObject: Record<string, string> = {};
+
+  for (const key in desiredEnv) {
+    envObject[`process.env.${key}`] = JSON.stringify(desiredEnv[key]);
+  }
+
+  if (config.debug) {
+    console.log(
+      `parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`
+    );
+    console.log(`parsed desiredEnv:\n ${JSON.stringify(desiredEnv, null, 2)}`);
+  }
+
+  return new DefinePlugin({ ...envObject });
 }
