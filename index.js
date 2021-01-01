@@ -27,49 +27,40 @@ function DotenvWebpack(config) {
      */
     let jsonFile;
     let parsedJsonFile;
-    if (config.envObject !== undefined) {
-        parsedJsonFile = config.envObject;
-    }
-    else if (config.filePath !== undefined) {
+    /**
+     * if undefined, read file from config.filePath and parse it
+     */
+    let filePath;
+    try {
         /**
-         * if undefined, read file from config.filePath and parse it
+         * resolve json file path
          */
-        let filePath;
-        try {
-            /**
-             * resolve json file path
-             */
-            filePath = config.shouldResolvePath
-                ? path_1.default.resolve(process.cwd(), config.filePath)
-                : config.filePath;
-            utils_1.debug(`resolved path -> ${filePath}`, config.debug);
-        }
-        catch (e) {
-            console.error('dotenv-cmd-webpack    : Error when resolving path, please check your path !');
-            // console.error(
-            //   `dotenv-cmd-webpack    : Proceeding to build WITHOUT your env variables set !`
-            // );
-            return new webpack_1.DefinePlugin({});
-        }
-        try {
-            jsonFile = fs_1.default.readFileSync(filePath, { encoding: 'utf-8' });
-            utils_1.debug(`jsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
-        }
-        catch (e) {
-            console.error(`dotenv-cmd-webpack     : Error when reading file, check your JSON file !`);
-            return new webpack_1.DefinePlugin({});
-        }
-        try {
-            parsedJsonFile = JSON.parse(jsonFile);
-            utils_1.debug(`parsedJsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
-        }
-        catch (e) {
-            console.error(`dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`);
-            return new webpack_1.DefinePlugin({});
-        }
+        filePath = config.shouldResolvePath
+            ? path_1.default.resolve(process.cwd(), config.filePath)
+            : config.filePath;
+        utils_1.debug(`resolved path -> ${filePath}`, config.debug);
     }
-    else {
-        console.error(`dotenv-cmd-webpack     : envObject or filePath is NOT specified !`);
+    catch (e) {
+        console.error('dotenv-cmd-webpack    : Error when resolving path, please check your path !');
+        // console.error(
+        //   `dotenv-cmd-webpack    : Proceeding to build WITHOUT your env variables set !`
+        // );
+        return new webpack_1.DefinePlugin({});
+    }
+    try {
+        jsonFile = fs_1.default.readFileSync(filePath, { encoding: 'utf-8' });
+        utils_1.debug(`jsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
+    }
+    catch (e) {
+        console.error(`dotenv-cmd-webpack     : Error when reading file, check your JSON file !`);
+        return new webpack_1.DefinePlugin({});
+    }
+    try {
+        parsedJsonFile = JSON.parse(jsonFile);
+        utils_1.debug(`parsedJsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
+    }
+    catch (e) {
+        console.error(`dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`);
         return new webpack_1.DefinePlugin({});
     }
     /**

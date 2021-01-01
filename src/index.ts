@@ -1,13 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { Compiler, DefinePlugin, EnvironmentPlugin } from 'webpack';
+import { DefinePlugin } from 'webpack';
 
 import { WebpackEnvConfig } from './types';
 import { debug } from './utils';
 
-export function DotenvWebpack<EnvObject = string>(
-  config: WebpackEnvConfig<EnvObject>
-) {
+export function DotenvWebpack(config: WebpackEnvConfig) {
   /**
    * should path to .env file be resolved or not
    */
@@ -29,56 +27,47 @@ export function DotenvWebpack<EnvObject = string>(
   let jsonFile: string;
   let parsedJsonFile;
 
-  if (config.envObject !== undefined) {
-    parsedJsonFile = config.envObject;
-  } else if (config.filePath !== undefined) {
+  /**
+   * if undefined, read file from config.filePath and parse it
+   */
+
+  let filePath: string;
+
+  try {
     /**
-     * if undefined, read file from config.filePath and parse it
+     * resolve json file path
      */
+    filePath = config.shouldResolvePath
+      ? path.resolve(process.cwd(), config.filePath)
+      : config.filePath;
 
-    let filePath: string;
-
-    try {
-      /**
-       * resolve json file path
-       */
-      filePath = config.shouldResolvePath
-        ? path.resolve(process.cwd(), config.filePath)
-        : config.filePath;
-
-      debug(`resolved path -> ${filePath}`, config.debug);
-    } catch (e) {
-      console.error(
-        'dotenv-cmd-webpack    : Error when resolving path, please check your path !'
-      );
-      // console.error(
-      //   `dotenv-cmd-webpack    : Proceeding to build WITHOUT your env variables set !`
-      // );
-      return new DefinePlugin({});
-    }
-
-    try {
-      jsonFile = fs.readFileSync(filePath, { encoding: 'utf-8' });
-      debug(`jsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
-    } catch (e) {
-      console.error(
-        `dotenv-cmd-webpack     : Error when reading file, check your JSON file !`
-      );
-      return new DefinePlugin({});
-    }
-
-    try {
-      parsedJsonFile = JSON.parse(jsonFile);
-      debug(`parsedJsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
-    } catch (e) {
-      console.error(
-        `dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`
-      );
-      return new DefinePlugin({});
-    }
-  } else {
+    debug(`resolved path -> ${filePath}`, config.debug);
+  } catch (e) {
     console.error(
-      `dotenv-cmd-webpack     : envObject or filePath is NOT specified !`
+      'dotenv-cmd-webpack    : Error when resolving path, please check your path !'
+    );
+    // console.error(
+    //   `dotenv-cmd-webpack    : Proceeding to build WITHOUT your env variables set !`
+    // );
+    return new DefinePlugin({});
+  }
+
+  try {
+    jsonFile = fs.readFileSync(filePath, { encoding: 'utf-8' });
+    debug(`jsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
+  } catch (e) {
+    console.error(
+      `dotenv-cmd-webpack     : Error when reading file, check your JSON file !`
+    );
+    return new DefinePlugin({});
+  }
+
+  try {
+    parsedJsonFile = JSON.parse(jsonFile);
+    debug(`parsedJsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
+  } catch (e) {
+    console.error(
+      `dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`
     );
     return new DefinePlugin({});
   }
