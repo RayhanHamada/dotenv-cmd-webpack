@@ -43,33 +43,27 @@ export function dotenvCmdWebpack(config: WebpackEnvConfig) {
 
     debug(`resolved path -> ${filePath}`, config.debug);
   } catch (e) {
-    console.error(
+    throw new Error(
       'dotenv-cmd-webpack    : Error when resolving path, please check your path !'
     );
-    // console.error(
-    //   `dotenv-cmd-webpack    : Proceeding to build WITHOUT your env variables set !`
-    // );
-    return new DefinePlugin({});
   }
 
   try {
     jsonFile = fs.readFileSync(filePath, { encoding: 'utf-8' });
     debug(`jsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
   } catch (e) {
-    console.error(
+    throw new Error(
       `dotenv-cmd-webpack     : Error when reading file, check your JSON file !`
     );
-    return new DefinePlugin({});
   }
 
   try {
     parsedJsonFile = JSON.parse(jsonFile);
     debug(`parsedJsonFile -> ${JSON.stringify(jsonFile)}`, config.debug);
   } catch (e) {
-    console.error(
+    throw new Error(
       `dotenv-cmd-webpack     : Error when parsing file, check your JSON file !`
     );
-    return new DefinePlugin({});
   }
 
   /**
@@ -88,9 +82,6 @@ export function dotenvCmdWebpack(config: WebpackEnvConfig) {
   }
 
   if (config.debug) {
-    console.log(
-      `parsed json file:\n ${JSON.stringify(parsedJsonFile, null, 2)}`
-    );
     console.log(`parsed desiredEnv:\n ${JSON.stringify(desiredEnv, null, 2)}`);
   }
 
