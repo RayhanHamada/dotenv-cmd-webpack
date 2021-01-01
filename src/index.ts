@@ -5,7 +5,7 @@ import { DefinePlugin } from 'webpack';
 import { WebpackEnvConfig } from './types';
 import { debug } from './utils';
 
-export function DotenvWebpack(config: WebpackEnvConfig) {
+export function dotenvCmdWebpack(config: WebpackEnvConfig) {
   /**
    * should path to .env file be resolved or not
    */

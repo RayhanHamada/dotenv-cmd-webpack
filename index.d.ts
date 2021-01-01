@@ -1,3 +1,3 @@
 import { DefinePlugin } from 'webpack';
 import { WebpackEnvConfig } from './types';
-export declare function DotenvWebpack(config: WebpackEnvConfig): DefinePlugin;
+export declare function dotenvCmdWebpack(config: WebpackEnvConfig): DefinePlugin;
