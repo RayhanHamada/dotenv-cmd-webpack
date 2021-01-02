@@ -5,7 +5,17 @@ import { expect } from 'chai';
 
 import { dotenvCmdWebpack } from '../src/index';
 
-describe('dotenvCmdWebpack', function () {
+const config: Configuration = {
+  mode: 'production',
+  entry: {
+    mockGenerated: path.resolve(__dirname, 'mock.js'),
+  },
+  output: {
+    path: __dirname,
+  },
+};
+
+describe('dotenvCmdWebpack function', function () {
   it('should read file with no error', function () {
     expect(
       dotenvCmdWebpack({
@@ -24,25 +34,8 @@ describe('dotenvCmdWebpack', function () {
     expect(plugin.definitions['process.env.PORT']).to.be.not.undefined;
     expect(plugin.definitions['process.env.PORT']).to.be.eq(`"3000"`);
   });
-});
 
-describe('Webpack', function () {
-  const plugin = dotenvCmdWebpack({
-    filePath: path.resolve(__dirname, '.env.json'),
-    env: 'dev',
-  });
-
-  const config: Configuration = {
-    mode: 'production',
-    entry: {
-      mockGenerated: path.resolve(__dirname, 'mock.js'),
-    },
-    output: {
-      path: __dirname,
-    },
-  };
-
-  it('should accept dotenvCmdWebpack with no error', function (done) {
+  it('should be accepted by webpack() with no error', function (done) {
     webpack(
       {
         ...config,
@@ -56,7 +49,7 @@ describe('Webpack', function () {
     );
   });
 
-  it(`change "process.env.PORT" to "3000"`, function (done) {
+  it(`change "process.env.PORT" to "3000" in mockGenerated.js`, function (done) {
     fs.promises
       .readFile(path.resolve(__dirname, 'mockGenerated.js'), {
         encoding: 'utf-8',
