@@ -45,6 +45,7 @@ describe('DotenvCmdWebpack class', function () {
   });
 
   it('should be accepted by webpack() with no error', function (done) {
+    
     webpack(
       {
         ...config,
@@ -65,7 +66,6 @@ describe('DotenvCmdWebpack class', function () {
       })
       .then(code => {
         expect(code).to.contain(`"3000"`);
-        console.log(code);
         done();
       })
       .catch(() => {
