@@ -8,9 +8,8 @@ module.exports = {
     'pre-commit': tasks(
       'npm run lint',
       'npm run fmt',
+      'git add .',
       'npm run test',
-      'npm run build',
-      'git add .'
     ),
   },
 };

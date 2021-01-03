@@ -1,4 +1,4 @@
-# dotenv-cmd-webpack
+# dotenv-cmd-webpack ![Node.js Package](https://github.com/RayhanHamada/dotenv-cmd-webpack/workflows/Node.js%20Package/badge.svg)
 
 A webpack plugin for loading environment variable defined in a json object
 

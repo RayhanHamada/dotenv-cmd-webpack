@@ -45,7 +45,6 @@ describe('DotenvCmdWebpack class', function () {
   });
 
   it('should be accepted by webpack() with no error', function (done) {
-    
     webpack(
       {
         ...config,
