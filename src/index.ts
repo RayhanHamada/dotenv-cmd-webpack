@@ -88,7 +88,7 @@ export class DotenvCmdWebpack extends DefinePlugin {
       );
     }
 
-    compiler.options.plugins.push(
+    (compiler.options.plugins as any[]).push(
       new DefinePlugin({
         ...envObject,
       })
