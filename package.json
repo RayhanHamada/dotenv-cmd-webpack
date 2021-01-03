@@ -23,7 +23,7 @@
     "build": "./node_modules/.bin/tsc",
     "lint": "./node_modules/.bin/eslint",
     "fmt": "./node_modules/.bin/prettier src/**/*.ts --write",
-    "test": "ts-mocha -r esm -p tsconfig.json ./test/**/*.test.ts"
+    "test": "ts-mocha -p tsconfig.json ./test/**/*.test.ts"
   },
   "devDependencies": {
     "@types/chai": "^4.2.14",
