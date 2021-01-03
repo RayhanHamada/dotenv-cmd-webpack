@@ -38,22 +38,22 @@ with environment variables (this is how you specify .env in [env-cmd](https://gi
 After we create the .env file, then we have to import dotenv-cmd-webpack first in the webpack config file
 
 ```ts
-const { DotenvCmdWebpack } = require('dotenv-cmd-webpack');
+const { dotenvCmdWebpack } = require('dotenv-cmd-webpack');
 ```
 
 Or use this if you're using es6 or Typescript.
 And yes, webpack config can be defined in Typescript file, see [this link](https://webpack.js.org/configuration/configuration-languages/#typescript)
 
 ```ts
-import { DotenvCmdWebpack } from 'dotenv-webpack-cmd';
+import { dotenvCmdWebpack } from 'dotenv-cmd-webpack';
 ```
 
-then call Dotenv inside configuration.plugins
+then call dotenvCmdWebpack inside configuration.plugins
 
 ```ts
 // inside the configuration object
 plugin: [
-  new DotenvCmdWebpack({
+  dotenvCmdWebpack({
     filePath: 'path/to/your/.env.json',
     env: 'your env name',
   }),
