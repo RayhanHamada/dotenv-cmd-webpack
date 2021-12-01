@@ -5,11 +5,6 @@ const tasks = (...task) => task.join(` && `);
 
 module.exports = {
   hooks: {
-    'pre-commit': tasks(
-      'npm run lint',
-      'npm run fmt',
-      'git add .',
-      'npm run test',
-    ),
+    'pre-commit': tasks('npm run test'),
   },
 };
